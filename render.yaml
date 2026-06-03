@@ -1,0 +1,27 @@
+services:
+  - type: worker
+    name: telegram-faq-cluster
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot.py
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN_1
+        sync: false
+      - key: TELEGRAM_BOT_TOKEN_2
+        sync: false
+      - key: TELEGRAM_BOT_TOKEN_3
+        sync: false
+      - key: TELEGRAM_BOT_TOKEN_4
+        sync: false
+      - key: TELEGRAM_BOT_TOKEN_5
+        sync: false
+      - key: TELEGRAM_BOT_TOKEN_6
+        sync: false
+      - key: TELEGRAM_BOT_TOKEN_7
+        sync: false
+      - key: TELEGRAM_BOT_TOKEN_8
+        sync: false
+      - key: TELEGRAM_BOT_TOKEN_9
+        sync: false
+      - key: TELEGRAM_BOT_TOKEN_10
+        sync: false
