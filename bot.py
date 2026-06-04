@@ -7,8 +7,9 @@ from telegram.ext import (
     CommandHandler,
     ContextTypes,
     CallbackQueryHandler,
-    ChatMemberHandler,
 )
+# Load the 50 questions dataset seamlessly
+from questions import QUIZ_QUESTIONS
 
 # Enable structured logging
 logging.basicConfig(
@@ -16,86 +17,114 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# --- CONFIGURATION / GLOBAL ASSETS ---
-# Replace this direct link with your hosted MP4 file
+# Core asset config (Autoplay Media Engine link)
 WELCOME_VIDEO_URL = "https://www.w3schools.com/html/mov_bbb.mp4" 
 
-FAQ_DATA = {
-    "faq_1": {
-        "button": "🚀 Getting Started",
-        "text": "Welcome to the group! To get started, make sure to read our pinned rules and introduce yourself in the main chat channel."
-    },
-    "faq_2": {
-        "button": "📚 Rules & Guidelines",
-        "text": "1. Be respectful to all members.\n2. No spamming or unsolicited self-promotion.\n3. Keep topics relevant to the channel theme."
-    },
-    "faq_3": {
-        "button": "🛠️ Support & Contact",
-        "text": "Need help? You can reach out to our official support team or open a ticket by messaging @YourSupportHandleBot."
-    }
-}
+# Dynamic in-memory database to keep track of user progression cleanly across 10 bots
+USER_QUIZ_STATES = {}
 
-def get_faq_keyboard():
+def get_quiz_keyboard(question_data):
+    """Generates 3 clean, stacked selection buttons for the given question."""
     keyboard = []
-    for key, data in FAQ_DATA.items():
-        keyboard.append([InlineKeyboardButton(data["button"], callback_data=key)])
+    for idx, option in enumerate(question_data["options"]):
+        keyboard.append([InlineKeyboardButton(option, callback_data=f"quiz_{idx}")])
     return InlineKeyboardMarkup(keyboard)
 
-# --- GLOBAL BOT HANDLERS ---
+# --- BOT HANDLERS ---
 
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handles the /start command by sending an autoplaying video with an FAQ caption."""
-    user = update.effective_user
-    welcome_text = (
-        f"Hello {user.first_name}! 👋\n\n"
-        "I am your automated helper assistant. Click any button below to read our frequently asked questions."
+    """Initializes or resets a quiz session with an opening autoplay video window."""
+    user_id = update.effective_user.id
+    
+    # Initialize state loop tracking parameters for this user
+    USER_QUIZ_STATES[user_id] = {
+        "current_index": 0,
+        "answers": []
+    }
+    
+    first_question = QUIZ_QUESTIONS[0]
+    welcome_caption = (
+        f"Welcome to the Master Challenge! 🏆\n\n"
+        f"You will face {len(QUIZ_QUESTIONS)} questions. Answer carefully.\n\n"
+        f"**Question 1:** {first_question['question']}"
     )
     
-    # Send the video stream directly. Captions sit seamlessly beneath the player.
     await update.message.reply_video(
         video=WELCOME_VIDEO_URL,
-        caption=welcome_text,
-        reply_markup=get_faq_keyboard()
+        caption=welcome_caption,
+        parse_mode="Markdown",
+        reply_markup=get_quiz_keyboard(first_question)
     )
 
-async def on_new_chat_member(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Detects new chat joins and triggers the automated video presentation frame."""
-    result = update.chat_member.new_chat_member
-    if result.status == "member":
-        user = result.user
-        chat_title = update.effective_chat.title
-        
-        # Escape markdown special tokens accurately 
-        welcome_text = (
-            f"Welcome to **{chat_title}**, {user.mention_markdown_v2()}\! 🎉\n\n"
-            "We are thrilled to have you here\. Please use the menu below to review our common questions\:"
-        )
-        
-        await context.bot.send_video(
-            chat_id=update.effective_chat.id,
-            video=WELCOME_VIDEO_URL,
-            caption=welcome_text,
-            parse_mode="MarkdownV2",
-            reply_markup=get_faq_keyboard()
-        )
-
-async def handle_faq_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Intercepts inline callback clicks and replaces the caption area cleanly."""
+async def handle_quiz_selection(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Processes user multiple-choice selections and pushes them forward."""
     query = update.callback_query
+    user_id = update.effective_user.id
     await query.answer()
 
-    faq_key = query.data
-    if faq_key in FAQ_DATA:
-        faq_answer = FAQ_DATA[faq_key]["text"]
-        button_title = FAQ_DATA[faq_key]["button"]
-        response_text = f"**{button_title}**\n\n{faq_answer}"
-        
-        # We target edit_message_caption to keep the active video window playing at the top
+    if user_id not in USER_QUIZ_STATES:
         await query.edit_message_caption(
-            caption=response_text,
-            parse_mode="Markdown",
-            reply_markup=get_faq_keyboard()
+            caption="⚠️ Your session timed out or expired. Please type /start to begin again!"
         )
+        return
+
+    state = USER_QUIZ_STATES[user_id]
+    current_idx = state["current_index"]
+    
+    # Parse chosen option index out of the callback string data
+    chosen_option = int(query.data.split("_")[1])
+    state["answers"].append(chosen_option)
+    
+    next_idx = current_idx + 1
+    state["current_index"] = next_idx
+
+    # Scenario A: More questions remain in the queue
+    if next_idx < len(QUIZ_QUESTIONS):
+        next_question = QUIZ_QUESTIONS[next_idx]
+        next_caption = (
+            f"**Question {next_idx + 1} of {len(QUIZ_QUESTIONS)}**\n\n"
+            f"{next_question['question']}"
+        )
+        await query.edit_message_caption(
+            caption=next_caption,
+            parse_mode="Markdown",
+            reply_markup=get_quiz_keyboard(next_question)
+        )
+        
+    # Scenario B: Quiz Finished - Compile scorecard readout details
+    else:
+        correct_count = 0
+        summary_report = "📊 **QUIZ COMPLETED! YOUR FINAL REPORT**\n\n"
+        
+        for idx, q in enumerate(QUIZ_QUESTIONS):
+            user_ans_idx = state["answers"][idx]
+            correct_ans_idx = q["correct"]
+            
+            user_choice_txt = q["options"][user_ans_idx]
+            correct_choice_txt = q["options"][correct_ans_idx]
+            
+            summary_report += f"❓ *Q{idx+1}: {q['question']}*\n"
+            
+            if user_ans_idx == correct_ans_idx:
+                correct_count += 1
+                summary_report += f"✅ Your Answer: {user_choice_txt}\n\n"
+            else:
+                summary_report += f"❌ Your Answer: {user_choice_txt}\n"
+                summary_report += f"✨ Correct Answer: {correct_choice_txt}\n\n"
+        
+        final_score_header = f"🏆 **Final Score: {correct_count}/{len(QUIZ_QUESTIONS)}**\n\n"
+        full_payload = final_score_header + summary_report
+        
+        # Clean up database entry to preserve memory stability on Render worker
+        del USER_QUIZ_STATES[user_id]
+        
+        # If text is too long for a single caption (max 1024 chars), chunk it out nicely
+        if len(full_payload) > 1000:
+            await query.edit_message_caption(caption=f"🏁 **Finished!** Final Score: {correct_count}/{len(QUIZ_QUESTIONS)}. See the complete answer breakdown sent right below 👇")
+            for chunk in [full_payload[i:i+4000] for i in range(0, len(full_payload), 4000)]:
+                await context.bot.send_message(chat_id=update.effective_chat.id, text=chunk, parse_mode="Markdown")
+        else:
+            await query.edit_message_caption(caption=full_payload, parse_mode="Markdown")
 
 # --- ASYNC MULTI-BOT RUNNER ---
 
@@ -109,32 +138,26 @@ async def main():
         logger.error("CRITICAL: No environment variables found matching 'TELEGRAM_BOT_TOKEN_X'!")
         return
 
-    logger.info(f"Found {len(tokens)} bot tokens in environment configuration. Initializing...")
-
+    logger.info(f"Found {len(tokens)} tokens. Loading Quiz cluster engine...")
     apps = []
 
     for env_name, token in tokens:
-        logger.info(f"Setting up bot instance linked to environment key: {env_name}")
-        
         app = ApplicationBuilder().token(token).build()
         
         app.add_handler(CommandHandler("start", start_command))
-        app.add_handler(ChatMemberHandler(on_new_chat_member, ChatMemberHandler.CHAT_MEMBER))
-        app.add_handler(CallbackQueryHandler(handle_faq_click))
+        app.add_handler(CallbackQueryHandler(handle_quiz_selection, pattern="^quiz_"))
         
         await app.initialize()
         await app.start()
         await app.updater.start_polling(allowed_updates=Update.ALL_TYPES)
-        
         apps.append(app)
 
-    logger.info("All 10+ bots are actively long-polling Telegram server queues with Video Support!")
+    logger.info("All 10+ quiz tracking engines initialized securely.")
 
     try:
         while True:
             await asyncio.sleep(3600)
     except (KeyboardInterrupt, SystemExit):
-        logger.info("Termination signal caught. Executing graceful bot cluster shutdown...")
         for app in apps:
             await app.updater.stop()
             await app.stop()
