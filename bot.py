@@ -8,7 +8,7 @@ from telegram.ext import (
     ContextTypes,
     CallbackQueryHandler,
 )
-# Load the 50 questions dataset seamlessly
+# Make sure questions.py is in the same folder on GitHub
 from questions import QUIZ_QUESTIONS
 
 # Enable structured logging
@@ -20,14 +20,15 @@ logger = logging.getLogger(__name__)
 # Core asset config (Autoplay Media Engine link)
 WELCOME_VIDEO_URL = "https://www.w3schools.com/html/mov_bbb.mp4" 
 
-# Dynamic in-memory database to keep track of user progression cleanly across 10 bots
+# Dynamic in-memory database to track users across all 10 bots
 USER_QUIZ_STATES = {}
 
 def get_quiz_keyboard(question_data):
-    """Generates 3 clean, stacked selection buttons for the given question."""
+    """Generates the interactive 3-option multiple-choice buttons."""
     keyboard = []
     for idx, option in enumerate(question_data["options"]):
-        keyboard.append([InlineKeyboardButton(option, callback_data=f"quiz_{idx}")])
+        # Shortened callback data prefix to ensure strict compliance with Telegram limits
+        keyboard.append([InlineKeyboardButton(text=option, callback_data=f"q_{idx}")])
     return InlineKeyboardMarkup(keyboard)
 
 # --- BOT HANDLERS ---
@@ -36,7 +37,7 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Initializes or resets a quiz session with an opening autoplay video window."""
     user_id = update.effective_user.id
     
-    # Initialize state loop tracking parameters for this user
+    # Initialize state tracking parameters for this specific user
     USER_QUIZ_STATES[user_id] = {
         "current_index": 0,
         "answers": []
@@ -60,8 +61,11 @@ async def handle_quiz_selection(update: Update, context: ContextTypes.DEFAULT_TY
     """Processes user multiple-choice selections and pushes them forward."""
     query = update.callback_query
     user_id = update.effective_user.id
+    
+    # Acknowledge the callback immediately to stop the loading animation on Telegram
     await query.answer()
 
+    # Safety check: if background worker restarted mid-session, fallback cleanly
     if user_id not in USER_QUIZ_STATES:
         await query.edit_message_caption(
             caption="⚠️ Your session timed out or expired. Please type /start to begin again!"
@@ -71,10 +75,13 @@ async def handle_quiz_selection(update: Update, context: ContextTypes.DEFAULT_TY
     state = USER_QUIZ_STATES[user_id]
     current_idx = state["current_index"]
     
-    # Parse chosen option index out of the callback string data
+    # Parse chosen option index out of the callback string data (e.g., "q_1" -> 1)
     chosen_option = int(query.data.split("_")[1])
     state["answers"].append(chosen_option)
     
+    logger.info(f"User {user_id} answered Q{current_idx + 1} with option index {chosen_option}")
+    
+    # Advance state counter
     next_idx = current_idx + 1
     state["current_index"] = next_idx
 
@@ -144,8 +151,11 @@ async def main():
     for env_name, token in tokens:
         app = ApplicationBuilder().token(token).build()
         
+        # 1. Connect basic /start entry script trigger
         app.add_handler(CommandHandler("start", start_command))
-        app.add_handler(CallbackQueryHandler(handle_quiz_selection, pattern="^quiz_"))
+        
+        # 2. CRITICAL FIX: Explicit pattern listener capturing our button entries starting with "q_"
+        app.add_handler(CallbackQueryHandler(handle_quiz_selection, pattern="^q_"))
         
         await app.initialize()
         await app.start()
