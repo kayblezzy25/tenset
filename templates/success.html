@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Payment received{% endblock %}
+{% block content %}
+  <section class="result">
+    <h1>&#9989; Thank you!</h1>
+    {% if pending_crypto %}
+      <p>We've received your crypto payment request. Your order will be confirmed
+         automatically as soon as the transaction is confirmed on the blockchain.</p>
+    {% else %}
+      <p>Your payment for <strong>{{ order.product_name }}</strong> was received.
+         We'll be in touch at the email you provided.</p>
+    {% endif %}
+    <a class="btn" href="{{ url_for('index') }}">Back to home</a>
+  </section>
+{% endblock %}

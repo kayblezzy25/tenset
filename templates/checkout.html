@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Checkout &mdash; {{ product.name }}{% endblock %}
+{% block content %}
+  <section class="checkout">
+    <h1>{{ product.name }}</h1>
+    <p class="description">{{ product.description }}</p>
+
+    <form method="post" action="{{ url_for('checkout_submit', product_id=product.id) }}">
+      <label for="name">Your name</label>
+      <input type="text" id="name" name="name" placeholder="Jane Doe">
+
+      <label for="email">Your email</label>
+      <input type="email" id="email" name="email" placeholder="jane@example.com" required>
+
+      <fieldset class="currency-choice">
+        <legend>Pay with</legend>
+
+        <label class="option">
+          <input type="radio" name="currency" value="USD" checked>
+          <span>Dollar (USD) &mdash; card &middot; ${{ '%.2f'|format(product.price_usd) }}</span>
+        </label>
+
+        <label class="option">
+          <input type="radio" name="currency" value="NGN">
+          <span>Naira (NGN) &mdash; card, bank transfer or USSD &middot; &#8358;{{ '{:,.0f}'.format(product.price_ngn) }}</span>
+        </label>
+
+        <label class="option">
+          <input type="radio" name="currency" value="BTC">
+          <span>Bitcoin (BTC) &mdash; priced at ${{ '%.2f'|format(product.price_usd) }}</span>
+        </label>
+      </fieldset>
+
+      <button type="submit" class="btn">Continue to payment</button>
+    </form>
+  </section>
+{% endblock %}

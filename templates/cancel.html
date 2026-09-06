@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Payment not completed{% endblock %}
+{% block content %}
+  <section class="result">
+    <h1>Payment not completed</h1>
+    <p>Your payment wasn't completed or couldn't be confirmed. No charge was recorded.</p>
+    <a class="btn" href="{{ url_for('index') }}">Try again</a>
+  </section>
+{% endblock %}

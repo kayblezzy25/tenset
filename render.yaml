@@ -25,3 +25,44 @@ services:
         sync: false
       - key: TELEGRAM_BOT_TOKEN_10
         sync: false
+
+  - type: web
+    name: skill-payments-site
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: SITE_BASE_URL
+        sync: false
+      - key: FLASK_SECRET_KEY
+        sync: false
+      - key: ADMIN_TOKEN
+        sync: false
+      - key: FLUTTERWAVE_SECRET_KEY
+        sync: false
+      - key: FLUTTERWAVE_WEBHOOK_HASH
+        sync: false
+      - key: NOWPAYMENTS_API_KEY
+        sync: false
+      - key: NOWPAYMENTS_IPN_SECRET
+        sync: false
+      - key: TELEGRAM_NOTIFY_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_NOTIFY_CHAT_ID
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: NOTIFY_EMAIL_TO
+        sync: false
+      - key: ORDERS_DB_PATH
+        sync: false
+    disk:
+      name: orders-data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1

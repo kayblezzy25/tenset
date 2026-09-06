@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}My Skills{% endblock %}
+{% block content %}
+  <section class="hero">
+    <h1>Work with me</h1>
+    <p>Pick what you need below and pay instantly in USD, NGN or Bitcoin.</p>
+  </section>
+
+  <section class="products">
+    {% for product in products %}
+      <article class="product-card">
+        <h2>{{ product.name }}</h2>
+        <p class="description">{{ product.description }}</p>
+        <p class="price">
+          ${{ '%.2f'|format(product.price_usd) }}
+          <span class="price-alt">/ &#8358;{{ '{:,.0f}'.format(product.price_ngn) }}</span>
+        </p>
+        <a class="btn" href="{{ url_for('checkout', product_id=product.id) }}">Buy now</a>
+      </article>
+    {% endfor %}
+  </section>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Orders{% endblock %}
+{% block content %}
+  <section class="admin">
+    <h1>Orders</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Created</th>
+          <th>Product</th>
+          <th>Amount</th>
+          <th>Buyer</th>
+          <th>Provider</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+          <tr class="status-{{ order.status }}">
+            <td>{{ order.created_at | int }}</td>
+            <td>{{ order.product_name }}</td>
+            <td>{{ order.amount }} {{ order.currency }}</td>
+            <td>{{ order.customer_name or '' }} &lt;{{ order.customer_email or '' }}&gt;</td>
+            <td>{{ order.provider }}</td>
+            <td>{{ order.status }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+{% endblock %}
