@@ -35,7 +35,7 @@ $mr_album = mr_get_featured_album();
 	<section class="mr-section mr-bg-ivory">
 		<div class="mr-container mr-split">
 			<div class="mr-split-media">
-				<img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/portrait-1.svg' ) ); ?>" alt="<?php esc_attr_e( 'Maggie Rowan — replace with final artist photography', 'maggie-rowan' ); ?>" />
+				<img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/portrait-home.jpg' ) ); ?>" alt="<?php esc_attr_e( 'Maggie Rowan', 'maggie-rowan' ); ?>" />
 			</div>
 			<div class="mr-split-body">
 				<span class="mr-eyebrow"><?php esc_html_e( 'About Maggie', 'maggie-rowan' ); ?></span>
@@ -57,7 +57,7 @@ $mr_album = mr_get_featured_album();
 						<?php if ( has_post_thumbnail( $mr_album ) ) : ?>
 							<?php echo get_the_post_thumbnail( $mr_album, 'large' ); ?>
 						<?php else : ?>
-							<img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/album-cover.svg' ) ); ?>" alt="<?php echo esc_attr( get_the_title( $mr_album ) ); ?>" />
+							<img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/album-cover.jpg' ) ); ?>" alt="<?php echo esc_attr( get_the_title( $mr_album ) ); ?>" />
 						<?php endif; ?>
 					</div>
 					<div>

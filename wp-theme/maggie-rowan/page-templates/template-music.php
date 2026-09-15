@@ -44,7 +44,7 @@ $mr_albums = mr_get_albums();
 								<?php if ( has_post_thumbnail( $album ) ) : ?>
 									<?php echo get_the_post_thumbnail( $album, 'large' ); ?>
 								<?php else : ?>
-									<img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/album-cover.svg' ) ); ?>" alt="<?php echo esc_attr( get_the_title( $album ) ); ?>" />
+									<img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/album-cover.jpg' ) ); ?>" alt="<?php echo esc_attr( get_the_title( $album ) ); ?>" />
 								<?php endif; ?>
 							</div>
 							<div>

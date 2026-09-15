@@ -28,7 +28,7 @@ get_header( null, array( 'style' => 'transparent' ) );
 	<section class="mr-section mr-bg-ivory">
 		<div class="mr-container mr-split">
 			<div class="mr-split-media">
-				<img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/portrait-1.svg' ) ); ?>" alt="<?php esc_attr_e( 'Maggie Rowan — replace with final artist photography', 'maggie-rowan' ); ?>" />
+				<img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/portrait-about.jpg' ) ); ?>" alt="<?php esc_attr_e( 'Maggie Rowan', 'maggie-rowan' ); ?>" />
 			</div>
 			<div class="mr-split-body">
 				<span class="mr-eyebrow"><?php esc_html_e( 'My Journey', 'maggie-rowan' ); ?></span>
@@ -58,13 +58,13 @@ get_header( null, array( 'style' => 'transparent' ) );
 
 			<div class="mr-gallery">
 				<div class="mr-gallery-main">
-					<img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/portrait-2.svg' ) ); ?>" alt="<?php esc_attr_e( 'Maggie Rowan performing — replace with final photography', 'maggie-rowan' ); ?>" />
+					<img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/gallery-main.jpg' ) ); ?>" alt="<?php esc_attr_e( 'Maggie Rowan performing', 'maggie-rowan' ); ?>" />
 				</div>
 				<div class="mr-gallery-grid">
-					<img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/gallery-2.svg' ) ); ?>" alt="" />
-					<img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/gallery-1.svg' ) ); ?>" alt="" />
-					<img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/gallery-3.svg' ) ); ?>" alt="" />
-					<img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/gallery-4.svg' ) ); ?>" alt="" />
+					<img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/gallery-headstock.jpg' ) ); ?>" alt="" />
+					<img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/gallery-road.jpg' ) ); ?>" alt="" />
+					<img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/gallery-profile.jpg' ) ); ?>" alt="" />
+					<img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/gallery-hat.jpg' ) ); ?>" alt="" />
 				</div>
 			</div>
 		</div>

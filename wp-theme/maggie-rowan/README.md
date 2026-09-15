@@ -112,27 +112,31 @@ Go to **Albums → Add New**:
 Publish it — it appears automatically on the Music page (newest first) with
 no theme or template changes required.
 
-## Replacing placeholder imagery
+## Imagery
 
-Every image slot uses a generated SVG placeholder (in `assets/images/`) so
-the site is never shipped with a stock photo pretending to be Maggie Rowan.
-Replace them with real photography:
+The portrait, gallery and album-cover photography (`portrait-about.jpg`,
+`portrait-home.jpg`, `gallery-main.jpg`, `gallery-headstock.jpg`,
+`gallery-road.jpg`, `gallery-profile.jpg`, `gallery-hat.jpg`,
+`album-cover.jpg`) is cropped from the client-supplied design reference —
+real photography, not placeholders. These were cropped out of low-resolution
+mockup screenshots, so treat them as good-enough-to-ship stand-ins: swap in
+the client's actual high-resolution photography as soon as it's available,
+since the current crops will look soft at large display sizes.
+
+The full-bleed backgrounds are still generated SVG gradients, kept
+intentionally as vector art rather than stretched photo crops (the reference
+screenshots aren't high-enough resolution to blow up across an entire
+viewport width without visible blur):
 
 - `assets/images/hero-bg.svg` — homepage hero background
 - `assets/images/page-hero.svg` — About/Music/Contact page hero background,
   and the Featured Album background
-- `assets/images/portrait-1.svg`, `portrait-2.svg` — About/homepage artist
-  portraits
-- `assets/images/gallery-1.svg` … `gallery-4.svg` — About page gallery
 - `assets/images/cta-bg.svg` — dark "Let's stay in touch" background
-- `assets/images/album-cover.svg` — fallback album art (replace by setting a
-  Featured Image on the Album post instead — that takes priority)
 
-Simplest approach: keep the same filenames and just overwrite the files (any
-raster format works — update the `.svg` extension references in the relevant
-template if you swap to `.jpg`/`.png`), or set a Featured Image directly on
-each Page/Album from the Media Library, which several sections already
-prefer when present.
+Replace any of these by overwriting the file (same filename) or by updating
+the `get_theme_file_uri(...)` path in the relevant template. Album art can
+also be overridden per-release by setting a Featured Image on the Album
+post — that takes priority over `album-cover.jpg`.
 
 ## Design tokens
 
