@@ -69,8 +69,8 @@ function mr_album_meta_box_html( $post ) {
 	</p>
 	<p>
 		<label for="mr_album_tracks"><strong><?php esc_html_e( 'Track list', 'maggie-rowan' ); ?></strong></label><br />
-		<span class="description"><?php esc_html_e( 'One track per line, formatted as: Track Title | 3:12', 'maggie-rowan' ); ?></span><br />
-		<textarea id="mr_album_tracks" name="mr_album_tracks" class="widefat" rows="12" placeholder="Delete My Number Now | 2:56"><?php echo esc_textarea( $tracks ); ?></textarea>
+		<span class="description"><?php esc_html_e( 'One track per line, formatted as: Track Title | 3:12 | https://open.spotify.com/track/... (Spotify link is optional -- falls back to the album Spotify link above when omitted)', 'maggie-rowan' ); ?></span><br />
+		<textarea id="mr_album_tracks" name="mr_album_tracks" class="widefat" rows="12" placeholder="Delete My Number Now | 2:54 | https://open.spotify.com/track/..."><?php echo esc_textarea( $tracks ); ?></textarea>
 	</p>
 	<p>
 		<label for="mr_album_spotify"><strong><?php esc_html_e( 'Spotify URL', 'maggie-rowan' ); ?></strong></label><br />
@@ -127,16 +127,16 @@ function mr_seed_default_album() {
 	$existing = get_posts( array( 'post_type' => 'mr_album', 'numberposts' => 1 ) );
 	if ( empty( $existing ) ) {
 		$tracks = implode( "\n", array(
-			'Delete My Number Now | 2:56',
-			'Cuddle Up | 3:12',
-			'Cumberland River | 3:34',
-			'Knoxville Bound | 3:08',
-			'Rodeo Blues | 3:21',
-			'Running the Woods | 3:47',
-			'Traveling Back | 3:52',
-			'Quiet Roads | 2:48',
-			'Working Man\'s Town | 3:16',
-			'Where the River Bends | 4:02',
+			'Delete My Number Now | 2:54 | https://open.spotify.com/track/0l0ZYMYRhetpir8TD7LVMI',
+			'Cuddle Up | 2:43 | https://open.spotify.com/track/1VtfyvMipprMUHZ9mATDIA',
+			'Cumberland River | 2:59 | https://open.spotify.com/track/2VTaHh6FzBqv1AZo1VyWw5',
+			'Knoxville Bound | 2:32 | https://open.spotify.com/track/2CtqPXcaj6HvGZizVLUL9K',
+			'Rodeo Blues | 2:54 | https://open.spotify.com/track/3G4V2n2XuSy41et7ONugck',
+			'Running the Woods | 2:49 | https://open.spotify.com/track/7o25tklNvrjUHswPuiMMRQ',
+			'Traveling Back | 3:01 | https://open.spotify.com/track/4mrRPRYG19IWx0N7C5jpsV',
+			'Walking Home | 2:58 | https://open.spotify.com/track/6Jukv6xHTTxMXcJMKCK1YF',
+			'Where Did He Go | 2:36 | https://open.spotify.com/track/6mQPrtbM3f1UCtahAzROhx',
+			'Waiting On Fridays | 2:58 | https://open.spotify.com/track/5lxOYdG6wfwYo80CQx1EQz',
 		) );
 
 		$post_id = wp_insert_post( array(

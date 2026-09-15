@@ -52,10 +52,12 @@ function mr_get_featured_album() {
 }
 
 /**
- * Parse the "Title | 3:12" textarea into a clean array of tracks.
+ * Parse the "Title | 3:12 | https://open.spotify.com/track/..." textarea
+ * into a clean array of tracks. The Spotify URL is optional per line; when
+ * omitted, callers fall back to the album's own Spotify link.
  *
  * @param int $album_id
- * @return array<int, array{title:string,time:string}>
+ * @return array<int, array{title:string,time:string,spotify_url:string}>
  */
 function mr_get_album_tracks( $album_id ) {
 	$raw    = get_post_meta( $album_id, '_mr_album_tracks', true );
@@ -63,10 +65,11 @@ function mr_get_album_tracks( $album_id ) {
 	$tracks = array();
 
 	foreach ( $lines as $line ) {
-		$parts = array_map( 'trim', explode( '|', $line, 2 ) );
+		$parts = array_map( 'trim', explode( '|', $line, 3 ) );
 		$tracks[] = array(
-			'title' => $parts[0],
-			'time'  => isset( $parts[1] ) ? $parts[1] : '',
+			'title'       => $parts[0],
+			'time'        => isset( $parts[1] ) ? $parts[1] : '',
+			'spotify_url' => isset( $parts[2] ) ? $parts[2] : '',
 		);
 	}
 

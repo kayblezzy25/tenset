@@ -68,14 +68,15 @@ $mr_albums = mr_get_albums();
 							<h3 class="mr-h3"><?php esc_html_e( 'Track List', 'maggie-rowan' ); ?></h3>
 							<div class="mr-tracks mr-tracklist-full" style="grid-template-columns:1fr;">
 								<?php
-								$spotify = get_post_meta( $album->ID, '_mr_album_spotify', true );
+								$album_spotify = get_post_meta( $album->ID, '_mr_album_spotify', true );
 								foreach ( $tracks as $t => $track ) :
+									$track_spotify = $track['spotify_url'] ? $track['spotify_url'] : $album_spotify;
 									?>
 									<div class="mr-track">
 										<span class="mr-track-num"><?php echo esc_html( sprintf( '%02d', $t + 1 ) ); ?></span>
 										<div class="mr-track-title">
-											<?php if ( $spotify ) : ?>
-												<a href="<?php echo esc_url( $spotify ); ?>" target="_blank" rel="noopener"><?php echo esc_html( $track['title'] ); ?></a>
+											<?php if ( $track_spotify ) : ?>
+												<a href="<?php echo esc_url( $track_spotify ); ?>" target="_blank" rel="noopener"><?php echo esc_html( $track['title'] ); ?></a>
 											<?php else : ?>
 												<?php echo esc_html( $track['title'] ); ?>
 											<?php endif; ?>
