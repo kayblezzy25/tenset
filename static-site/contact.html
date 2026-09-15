@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Contact | Maggie Rowan</title>
+<meta name="description" content="Get in touch with Maggie Rowan for booking, press or collaboration enquiries." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body class="mr-body">
+
+<header class="mr-header" id="mr-site-header">
+	<div class="mr-container mr-header-inner">
+		<a class="mr-logo" href="index.html">Maggie Rowan</a>
+		<ul class="mr-nav" id="mr-nav">
+			<li><a href="index.html">Home</a></li>
+			<li><a href="about.html">About</a></li>
+			<li><a href="music.html">Music</a></li>
+			<li><a href="contact.html">Contact</a></li>
+		</ul>
+		<button type="button" class="mr-nav-toggle" id="mr-nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mr-nav">
+			<span></span><span></span><span></span>
+		</button>
+	</div>
+</header>
+
+<main>
+
+	<section class="mr-page-hero" style="min-height:44vh;background-image:url('assets/images/page-hero.svg');">
+		<div class="mr-container mr-page-hero-content" style="padding-top:130px;">
+			<span class="mr-eyebrow">Contact</span>
+			<h1 class="mr-h2">Let's stay in touch</h1>
+		</div>
+	</section>
+
+	<section class="mr-section mr-bg-ivory">
+		<div class="mr-container mr-contact-grid">
+			<div>
+				<span class="mr-eyebrow">Get In Touch</span>
+				<h2 class="mr-h2">For enquiries</h2>
+				<p class="mr-lead">For booking requests, press enquiries, collaborations or anything else, send Maggie a message using the form and her team will get back to you as soon as possible.</p>
+			</div>
+			<div>
+				<div class="mr-form-wrap">
+					<form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you.html">
+						<input type="hidden" name="form-name" value="contact" />
+						<p style="position:absolute;left:-9999px;" aria-hidden="true">
+							<label>Don't fill this out if you're human: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+						</p>
+
+						<div class="mr-form-row">
+							<div class="mr-field">
+								<label for="mr_contact_name">Name *</label>
+								<input type="text" id="mr_contact_name" name="name" placeholder="Your name" required />
+							</div>
+							<div class="mr-field">
+								<label for="mr_contact_email">Email *</label>
+								<input type="email" id="mr_contact_email" name="email" placeholder="Your email" required />
+							</div>
+						</div>
+
+						<div class="mr-field">
+							<label for="mr_contact_subject">Subject *</label>
+							<select id="mr_contact_subject" name="subject" required>
+								<option value="">Select a subject</option>
+								<option value="Booking enquiry">Booking enquiry</option>
+								<option value="Press / media">Press / media</option>
+								<option value="Collaboration">Collaboration</option>
+								<option value="General enquiry">General enquiry</option>
+							</select>
+						</div>
+
+						<div class="mr-field">
+							<label for="mr_contact_message">Message *</label>
+							<textarea id="mr_contact_message" name="message" placeholder="Your message" required></textarea>
+						</div>
+
+						<button type="submit" class="mr-btn mr-btn-rust mr-form-submit">Send Message</button>
+						<p class="mr-form-note">Your enquiry goes straight to Maggie's team &mdash; we don't share your details with anyone else.</p>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+
+</main>
+
+<footer class="mr-footer">
+	<div class="mr-container">
+		<div class="mr-footer-inner">
+			<a class="mr-footer-logo" href="index.html">Maggie Rowan</a>
+			<ul class="mr-footer-nav">
+				<li><a href="index.html">Home</a></li>
+				<li><a href="about.html">About</a></li>
+				<li><a href="music.html">Music</a></li>
+				<li><a href="contact.html">Contact</a></li>
+			</ul>
+		</div>
+		<div class="mr-footer-bottom">
+			<span>&copy; 2026 Maggie Rowan. All rights reserved.</span>
+			<div class="mr-footer-legal">
+				<a href="privacy-policy.html">Privacy Policy</a>
+				<a href="#" id="mr-manage-cookies">Cookies</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<div class="mr-cookie-banner" id="mr-cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie notice">
+	<p>We use cookies to ensure you get the best experience on our website. By continuing to browse, you agree to our use of cookies.</p>
+	<div class="mr-cookie-actions">
+		<button type="button" class="mr-cookie-accept" id="mr-cookie-accept">Accept</button>
+		<a href="privacy-policy.html">Learn more</a>
+	</div>
+</div>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
