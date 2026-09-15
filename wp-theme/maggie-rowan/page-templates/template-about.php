@@ -13,7 +13,7 @@ get_header( null, array( 'style' => 'transparent' ) );
 <main>
 
 	<!-- PAGE HERO -->
-	<section class="mr-page-hero" style="background-image:url('<?php echo esc_url( get_theme_file_uri( '/assets/images/page-hero.svg' ) ); ?>');">
+	<section class="mr-page-hero" style="background-image:url('<?php echo esc_url( get_theme_file_uri( '/assets/images/hero-photo.jpg' ) ); ?>');">
 		<div class="mr-container mr-page-hero-content">
 			<span class="mr-eyebrow"><?php esc_html_e( 'About Maggie', 'maggie-rowan' ); ?></span>
 			<h1 class="mr-h1-sm"><?php esc_html_e( 'The story behind the music', 'maggie-rowan' ); ?></h1>
@@ -40,6 +40,7 @@ get_header( null, array( 'style' => 'transparent' ) );
 					<?php esc_html_e( '"Every journey has a story, and sometimes travelling back is the best way to understand where you\'ve been."', 'maggie-rowan' ); ?>
 				</blockquote>
 				<hr class="mr-rule" />
+				<p style="margin-top:26px;font-weight:600;"><?php esc_html_e( 'Traveling Back is available now.', 'maggie-rowan' ); ?></p>
 			</div>
 		</div>
 	</section>

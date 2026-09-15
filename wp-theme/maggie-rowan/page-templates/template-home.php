@@ -15,7 +15,7 @@ $mr_album = mr_get_featured_album();
 <main>
 
 	<!-- HERO -->
-	<section class="mr-hero" style="background-image:url('<?php echo esc_url( get_theme_file_uri( '/assets/images/hero-bg.svg' ) ); ?>');">
+	<section class="mr-hero" style="background-image:url('<?php echo esc_url( get_theme_file_uri( '/assets/images/hero-photo.jpg' ) ); ?>');">
 		<div class="mr-container mr-hero-content">
 			<span class="mr-eyebrow"><?php esc_html_e( 'Modern Americana · Country · Bluegrass', 'maggie-rowan' ); ?></span>
 			<h1><?php bloginfo( 'name' ); ?></h1>
@@ -51,7 +51,7 @@ $mr_album = mr_get_featured_album();
 	<?php if ( $mr_album ) : ?>
 	<section class="mr-section mr-bg-ivory">
 		<div class="mr-container">
-			<div class="mr-album-feature" style="background-image:url('<?php echo esc_url( get_theme_file_uri( '/assets/images/page-hero.svg' ) ); ?>');">
+			<div class="mr-album-feature" style="background-image:url('<?php echo esc_url( get_theme_file_uri( '/assets/images/hero-photo.jpg' ) ); ?>');">
 				<div class="mr-album-feature-inner">
 					<div class="mr-album-cover">
 						<?php if ( has_post_thumbnail( $mr_album ) ) : ?>

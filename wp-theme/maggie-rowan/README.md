@@ -123,15 +123,14 @@ mockup screenshots, so treat them as good-enough-to-ship stand-ins: swap in
 the client's actual high-resolution photography as soon as it's available,
 since the current crops will look soft at large display sizes.
 
-The full-bleed backgrounds are still generated SVG gradients, kept
-intentionally as vector art rather than stretched photo crops (the reference
-screenshots aren't high-enough resolution to blow up across an entire
-viewport width without visible blur):
+`assets/images/hero-photo.jpg` is a high-resolution (1400x1000) client-supplied
+photo, used full-bleed for the homepage hero, every page-hero background
+(About/Music/Contact/Privacy), and the Featured Album background.
 
-- `assets/images/hero-bg.svg` — homepage hero background
-- `assets/images/page-hero.svg` — About/Music/Contact page hero background,
-  and the Featured Album background
-- `assets/images/cta-bg.svg` — dark "Let's stay in touch" background
+`assets/images/cta-bg.svg` (the dark "Let's stay in touch" background) is
+still a generated gradient rather than a photo -- no separate reference image
+was supplied for that section, and it works well against the ivory/charcoal
+palette as-is.
 
 Replace any of these by overwriting the file (same filename) or by updating
 the `get_theme_file_uri(...)` path in the relevant template. Album art can

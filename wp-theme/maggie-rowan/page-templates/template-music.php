@@ -17,7 +17,7 @@ $mr_albums = mr_get_albums();
 
 <main>
 
-	<section class="mr-page-hero" style="background-image:url('<?php echo esc_url( get_theme_file_uri( '/assets/images/page-hero.svg' ) ); ?>');">
+	<section class="mr-page-hero" style="background-image:url('<?php echo esc_url( get_theme_file_uri( '/assets/images/hero-photo.jpg' ) ); ?>');">
 		<div class="mr-container mr-page-hero-content">
 			<span class="mr-eyebrow"><?php esc_html_e( 'Music', 'maggie-rowan' ); ?></span>
 			<h1 class="mr-h1-sm"><?php esc_html_e( 'Traveling Back and beyond', 'maggie-rowan' ); ?></h1>
@@ -38,7 +38,7 @@ $mr_albums = mr_get_albums();
 			<section class="mr-section <?php echo 0 === $i % 2 ? 'mr-bg-ivory' : 'mr-bg-white'; ?>">
 				<div class="mr-container">
 
-					<div class="mr-album-feature" style="background-image:url('<?php echo esc_url( get_theme_file_uri( '/assets/images/page-hero.svg' ) ); ?>');">
+					<div class="mr-album-feature" style="background-image:url('<?php echo esc_url( get_theme_file_uri( '/assets/images/hero-photo.jpg' ) ); ?>');">
 						<div class="mr-album-feature-inner">
 							<div class="mr-album-cover">
 								<?php if ( has_post_thumbnail( $album ) ) : ?>
